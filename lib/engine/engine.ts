@@ -1779,10 +1779,13 @@ const Engine = (function () {
     if (this.reduced || sstore('hodl-booted')) { el.remove(); return; }
     sstore('hodl-booted', '1');
     var lines = qa(el, '[data-line]');
-    lines.forEach(function (l, i) { setTimeout(function () { l.classList.add('is-on'); self.sfx.tick(); }, 140 + i * 170); });
+    // the screen stays up for at least MIN ms, counted from page load (not from engine start)
+    var MIN = 3000, step = 450;
+    var left = function () { return Math.max(0, MIN - performance.now()); };
+    lines.forEach(function (l, i) { setTimeout(function () { l.classList.add('is-on'); self.sfx.tick(); }, 140 + i * step); });
     var end = function () { el.classList.add('is-out'); setTimeout(function () { if (el.parentNode) el.remove(); }, 900); };
-    var t = setTimeout(end, 140 + lines.length * 170 + 380);
-    this.on(el, 'click', function () { clearTimeout(t); end(); });
+    var t = setTimeout(end, Math.max(140 + lines.length * step + 380, left()));
+    this.on(el, 'click', function () { clearTimeout(t); t = setTimeout(end, left()); });
   };
 
   /* scroll: progress bar, hero parallax, interstitial rows */
