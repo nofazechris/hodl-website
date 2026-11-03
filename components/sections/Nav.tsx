@@ -24,7 +24,7 @@ export default function Nav() {
             </svg>
             <span data-k="soundlbl" className="hide-sm">SOUND OFF</span>
           </button>
-          <a href={GAME_URL} className="chip chip-solid" data-burst="">
+          <a href={GAME_URL} target="_blank" rel="noopener" className="chip chip-solid" data-burst="">
             <span className="hide-sm">Download the game</span>
             <span className="show-sm">Game</span>
             ↓
