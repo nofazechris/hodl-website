@@ -1,4 +1,6 @@
 /* Reinvest — markup only. Behaviour is attached by the engine through data-k / data-* hooks. */
+import { REINVEST_URL } from '@/data/links';
+
 export default function Reinvest() {
   return (
       <section id="reinvest" className="sec" style={{ background: "linear-gradient(180deg,#0a0a0b,#0e0e10)" }}>
@@ -17,6 +19,10 @@ export default function Reinvest() {
             <p className="lede" style={{ marginTop: "22px", color: "var(--muted)" }}>
               Choose HODL instead of SOL for your payout. Auto-reinvest keeps your share of collected fees in HODL, helping compound your holding without selling that share.
             </p>
+            <div className="hero-ctas" style={{ marginTop: "26px" }}>
+              <a href={REINVEST_URL} target="_blank" rel="noopener" className="btn btn-or" data-burst="">Reinvest now ↗</a>
+              <button type="button" className="btn btn-ghost" data-reinvest-demo="">See how it works ↓</button>
+            </div>
             <ol className="olist">
               <li>
                 <span>01</span>

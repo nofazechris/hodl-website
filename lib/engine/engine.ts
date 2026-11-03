@@ -1638,6 +1638,13 @@ const Engine = (function () {
     tg.forEach(function (b) { self.on(b, 'click', function () { cur = b.getAttribute('data-cur'); if (cur === 'HODL' && rng.value === '0') rng.value = '100'; self.sfx.tick(); render(); }); });
     this.on(rng, 'input', function () { render(); });
     render();
+    // "See how it works": bring the demo panel into view and switch it on at 100% HODL
+    qa(this.root, '[data-reinvest-demo]').forEach(function (b) {
+      self.on(b, 'click', function () {
+        w.scrollIntoView({ behavior: self.reduced ? 'auto' : 'smooth', block: 'center' });
+        setTimeout(function () { cur = 'HODL'; rng.value = '100'; self.sfx.tick(); render(); }, self.reduced ? 0 : 450);
+      });
+    });
   };
 
   /* 04 · Lookbook: drag to browse */

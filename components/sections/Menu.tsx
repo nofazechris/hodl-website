@@ -1,4 +1,6 @@
 /* Menu — markup only. Behaviour is attached by the engine through data-k / data-* hooks. */
+import { REINVEST_URL } from '@/data/links';
+
 export default function Menu() {
   return (
     <>
@@ -51,6 +53,7 @@ export default function Menu() {
         </ul>
         <div className="menu-ext">
           <a className="chip chip-or" href="https://clashpad.fun/coin.html?c=hodl" target="_blank" rel="noopener">BUY HODL ↗</a>
+          <a className="chip" href={REINVEST_URL} target="_blank" rel="noopener">REINVEST ↗</a>
           <a className="chip" href="https://hodluntildeath.myshopify.com/" target="_blank" rel="noopener">STORE ↗</a>
           <a className="chip" href="https://x.com/HODLUNTILDEATH" target="_blank" rel="noopener">X ↗</a>
           <a className="chip" href="https://www.instagram.com/hodluntildeath/" target="_blank" rel="noopener">INSTAGRAM ↗</a>
