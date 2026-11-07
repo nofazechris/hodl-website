@@ -1,4 +1,6 @@
 /* Community — markup only. Behaviour is attached by the engine through data-k / data-* hooks. */
+import { DISCORD_URL, INSTAGRAM_URL, TIKTOK_URL, X_URL } from '@/data/links';
+
 export default function Community() {
   return (
       <section id="community" className="sec">
@@ -39,7 +41,7 @@ export default function Community() {
             </div>
           </div>
           <div className="comms">
-            <a data-reveal="" className="comm" href="https://x.com/HODLUNTILDEATH" target="_blank" rel="noopener">
+            <a data-reveal="" className="comm" href={X_URL} target="_blank" rel="noopener">
               <div className="top">
                 <b>𝕏</b>
                 <span>Follow →</span>
@@ -51,7 +53,7 @@ export default function Community() {
                 </p>
               </div>
             </a>
-            <a data-reveal="" data-reveal-delay="120" className="comm" href="https://www.instagram.com/hodluntildeath/" target="_blank" rel="noopener">
+            <a data-reveal="" data-reveal-delay="120" className="comm" href={INSTAGRAM_URL} target="_blank" rel="noopener">
               <div className="top">
                 <b>Instagram</b>
                 <span>Follow →</span>
@@ -63,7 +65,31 @@ export default function Community() {
                 </p>
               </div>
             </a>
-            <a data-reveal="" data-reveal-delay="240" className="comm or" href="https://hodluntildeath.myshopify.com/" target="_blank" rel="noopener">
+            <a data-reveal="" data-reveal-delay="180" className="comm" href={TIKTOK_URL} target="_blank" rel="noopener">
+              <div className="top">
+                <b>TikTok</b>
+                <span>Follow →</span>
+              </div>
+              <div>
+                <h3>@hodl582</h3>
+                <p>
+                  Short clips from the garrison — holders, drops, and the people who never sell.
+                </p>
+              </div>
+            </a>
+            <a data-reveal="" data-reveal-delay="240" className="comm" href={DISCORD_URL} target="_blank" rel="noopener">
+              <div className="top">
+                <b>Discord</b>
+                <span>Join →</span>
+              </div>
+              <div>
+                <h3>Join the garrison</h3>
+                <p>
+                  Talk conviction with other holders, get updates first, and hold the line together.
+                </p>
+              </div>
+            </a>
+            <a data-reveal="" data-reveal-delay="300" className="comm or" href="https://hodluntildeath.myshopify.com/" target="_blank" rel="noopener">
               <div className="top">
                 <b>HODLindustries</b>
                 <span style={{ color: "var(--or)" }}>Shop →</span>

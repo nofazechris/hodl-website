@@ -1,4 +1,6 @@
 /* Footer — markup only. Behaviour is attached by the engine through data-k / data-* hooks. */
+import { DISCORD_URL, INSTAGRAM_URL, TIKTOK_URL, X_URL } from '@/data/links';
+
 export default function Footer() {
   return (
       <footer>
@@ -26,8 +28,10 @@ export default function Footer() {
               <h4>Official</h4>
               <a href="https://hodluntildeath.myshopify.com/" target="_blank" rel="noopener">Merch Store ↗</a>
               <a href="https://clashpad.fun/coin.html?c=hodl" target="_blank" rel="noopener">Project / Buy ↗</a>
-              <a href="https://x.com/HODLUNTILDEATH" target="_blank" rel="noopener">X ↗</a>
-              <a href="https://www.instagram.com/hodluntildeath/" target="_blank" rel="noopener">Instagram ↗</a>
+              <a href={X_URL} target="_blank" rel="noopener">X ↗</a>
+              <a href={INSTAGRAM_URL} target="_blank" rel="noopener">Instagram ↗</a>
+              <a href={TIKTOK_URL} target="_blank" rel="noopener">TikTok ↗</a>
+              <a href={DISCORD_URL} target="_blank" rel="noopener">Discord ↗</a>
             </div>
           </div>
           <div className="foot-b">

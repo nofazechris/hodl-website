@@ -1,4 +1,6 @@
 /* Finale — markup only. Behaviour is attached by the engine through data-k / data-* hooks. */
+import { DISCORD_URL, X_URL } from '@/data/links';
+
 export default function Finale() {
   return (
       <section className="fin">
@@ -17,7 +19,8 @@ export default function Finale() {
             <div data-reveal="" data-reveal-delay="140" style={{ display: "flex", flexWrap: "wrap", gap: "12px" }}>
               <a href="https://clashpad.fun/coin.html?c=hodl" target="_blank" rel="noopener" className="btn btn-or" data-burst="">Buy HODL →</a>
               <a href="https://hodluntildeath.myshopify.com/" target="_blank" rel="noopener" className="btn btn-ghost">Shop the collection</a>
-              <a href="https://x.com/HODLUNTILDEATH" target="_blank" rel="noopener" className="btn btn-ghost">Follow on X</a>
+              <a href={X_URL} target="_blank" rel="noopener" className="btn btn-ghost">Follow on X</a>
+              <a href={DISCORD_URL} target="_blank" rel="noopener" className="btn btn-ghost">Join Discord</a>
             </div>
           </div>
           <div data-k="finale" className="fin-art" aria-hidden="true" />

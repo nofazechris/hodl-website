@@ -1,4 +1,6 @@
 /* Verify — markup only. Behaviour is attached by the engine through data-k / data-* hooks. */
+import { X_URL } from '@/data/links';
+
 export default function Verify() {
   return (
       <section id="verify" className="sec" style={{ background: "linear-gradient(180deg,#0a0a0b,#0e0e10)" }}>
@@ -50,7 +52,7 @@ export default function Verify() {
                 <div className="k">X profile</div>
                 <div className="v">https://x.com/HODLUNTILDEATH</div>
               </div>
-              <a className="copy" href="https://x.com/HODLUNTILDEATH" target="_blank" rel="noopener" style={{ display: "inline-flex", alignItems: "center" }}>OPEN ↗</a>
+              <a className="copy" href={X_URL} target="_blank" rel="noopener" style={{ display: "inline-flex", alignItems: "center" }}>OPEN ↗</a>
             </div>
           </div>
         </div>
