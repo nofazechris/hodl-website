@@ -4,6 +4,7 @@ export const HODL_MINT = '6roVXGp6izrreewkZNbuAd5yZrzwLfX4Zmyh1U5nLeEp';
 export const VAULT_WALLET = '2DUQDBVGvPjyp9mH7aVqKxqKZ1qjVt83q9b62MMzCvEw';
 
 export const CLASHPAD_COIN_API = `https://clashpad.fun/api/coins/${COIN_SLUG}`;
+export const CLASHPAD_REWARDS_API = (wallet: string) => `https://clashpad.fun/api/rewards/${COIN_SLUG}/${wallet}`;
 export const SOLANA_RPC = 'https://api.mainnet-beta.solana.com';
 
 /** Shape of GET /api/vault. */
@@ -16,9 +17,11 @@ export interface VaultStats {
   heldValueSol: number | null;
   /** SOL sitting in the vault wallet itself. */
   vaultSol: number;
-  /** Lifetime fees collected by the project, in SOL. */
-  feesCollectedSol: number;
-  /** SOL already paid out to holders as rewards. */
+  /** SOL of holder rewards paid to the vault wallet itself (null if unavailable). */
+  vaultEarnedSol: number | null;
+  /** SOL of rewards saved for the vault wallet, not yet paid. */
+  vaultPendingSol: number | null;
+  /** SOL paid out to all holders as rewards (project-wide). */
   paidToHoldersSol: number;
   payments: number;
   holders: number | null;

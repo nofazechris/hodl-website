@@ -130,12 +130,23 @@ export default function VaultStats() {
           </div>
 
           <div className="vl-card">
-            <div className="vl-k">SOL earned</div>
+            <div className="vl-k">SOL earned by the vault</div>
             <div className="vl-num vl-or">
-              <CountUp value={data ? data.feesCollectedSol : null} decimals={2} />
+              <CountUp value={data ? data.vaultEarnedSol : null} decimals={4} />
               <small>SOL</small>
             </div>
-            <div className="vl-sub">Lifetime fees collected</div>
+            <div className="vl-sub">
+              {data ? (
+                data.vaultEarnedSol === null ? 'Earnings unavailable right now' : (
+                  <>
+                    Rewards paid to the vault wallet
+                    {data.vaultPendingSol ? <> · <b>{data.vaultPendingSol.toFixed(4)} SOL</b> pending</> : null}
+                  </>
+                )
+              ) : (
+                'Reading the rewards…'
+              )}
+            </div>
           </div>
 
           <div className="vl-card">
@@ -165,7 +176,7 @@ export default function VaultStats() {
         </div>
 
         <p className="fine" style={{ marginTop: "18px" }}>
-          Held amount is the live HODL balance of the vault wallet. SOL figures come from the HODL page on clashpad.fun. Refreshes every minute. Informational only, not financial advice.
+          Held amount is the live HODL balance of the vault wallet. SOL earned is the holder rewards clashpad.fun has paid to the vault wallet; the holder payout total is project-wide. Refreshes every minute. Informational only, not financial advice.
         </p>
       </div>
     </section>

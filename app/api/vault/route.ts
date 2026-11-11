@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import {
   CLASHPAD_COIN_API,
+  CLASHPAD_REWARDS_API,
   HODL_MINT,
   SOLANA_RPC,
   VAULT_WALLET,
@@ -29,7 +30,7 @@ async function rpc<T>(method: string, params: unknown[]): Promise<T> {
 const lamportsToSol = (v: unknown): number => Number(v ?? 0) / 1e9;
 
 async function read(): Promise<VaultStats> {
-  const [coinRes, accounts, balance, supply] = await Promise.all([
+  const [coinRes, accounts, balance, supply, rewards] = await Promise.all([
     fetch(CLASHPAD_COIN_API, { cache: 'no-store', signal: AbortSignal.timeout(8000) }),
     rpc<{ value: { account: { data: { parsed: { info: { tokenAmount: { uiAmount: number } } } } } }[] }>(
       'getTokenAccountsByOwner',
@@ -37,6 +38,10 @@ async function read(): Promise<VaultStats> {
     ),
     rpc<{ value: number }>('getBalance', [VAULT_WALLET]),
     rpc<{ value: { uiAmount: number } }>('getTokenSupply', [HODL_MINT]),
+    // a failed rewards lookup leaves the earned figure blank instead of guessing
+    fetch(CLASHPAD_REWARDS_API(VAULT_WALLET), { cache: 'no-store', signal: AbortSignal.timeout(8000) })
+      .then((r) => (r.ok ? r.json() : null))
+      .catch(() => null),
   ]);
   if (!coinRes.ok) throw new Error(`clashpad ${coinRes.status}`);
   const coin = await coinRes.json();
@@ -55,7 +60,8 @@ async function read(): Promise<VaultStats> {
     heldPctSupply: totalSupply ? (heldTokens / totalSupply) * 100 : 0,
     heldValueSol,
     vaultSol: balance.value / 1e9,
-    feesCollectedSol: lamportsToSol(coin.coin?.pot?.lifetime_lamports),
+    vaultEarnedSol: rewards && rewards.paidLamports != null ? lamportsToSol(rewards.paidLamports) : null,
+    vaultPendingSol: rewards && rewards.savedLamports != null ? lamportsToSol(rewards.savedLamports) : null,
     paidToHoldersSol: lamportsToSol(coin.coin?.rewardsPaid?.paidLamports),
     payments: Number(coin.coin?.rewardsPaid?.payments ?? 0),
     holders: coin.coin?.market?.holder_count ?? null,
