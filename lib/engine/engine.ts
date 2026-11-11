@@ -110,6 +110,16 @@ const Engine = (function () {
     var n = this.noise(2.2, 'brown'), f = c.createBiquadFilter(); f.type = 'lowpass'; f.frequency.value = 260;
     n.connect(f); this.env(f, t, 0.15, 0.9, 1.9); n.start(t); n.stop(t + 2.2);
   };
+  /* calm surveillance beep: soft sine, panned toward the camera that "pinged" */
+  Sfx.prototype.beep = function (freq, pan) {
+    if (!this.on || !this.ensure()) return; var c = this.ctx, t = c.currentTime;
+    var o = c.createOscillator(); o.type = 'sine'; o.frequency.value = freq;
+    var g = c.createGain(); g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.16, t + 0.03); g.gain.setValueAtTime(0.16, t + 0.13); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.38);
+    o.connect(g); var out = g;
+    if (c.createStereoPanner) { var p = c.createStereoPanner(); p.pan.value = pan; g.connect(p); out = p; }
+    out.connect(this.master); o.start(t); o.stop(t + 0.4);
+  };
   Sfx.prototype.tick = function () {
     if (!this.on || !this.ensure()) return; var c = this.ctx, t = c.currentTime;
     var o = c.createOscillator(); o.type = 'square'; o.frequency.value = 1800; this.env(o, t, 0.001, 0.05, 0.03); o.start(t); o.stop(t + 0.05);
@@ -977,6 +987,7 @@ const Engine = (function () {
     this.busy = false; this.menuOpen = false;
     this.mouse = { x: 0.5, y: 0.5, sx: -1, sy: -1, inHero: false };
     this.camAng = [0, 0];
+    this.camFlash = [0, 0]; this.beepT = 2.5; this.beepCam = 1;
     this.nextBolt = rand(6, 12); this.boltT = 0;
     this.heroVisible = true;
     this.fx.onComplete = function () { self.celebrate(); };
@@ -1288,7 +1299,16 @@ const Engine = (function () {
       else ang = clamp(Math.atan2(targ.y - 360, targ.x - cx) / D2R, -40, 40);          // lens faces +x
       this.camAng[c] += (ang - this.camAng[c]) * Math.min(1, dt * 4);
       cam.setAttribute('transform', 'rotate(' + this.camAng[c].toFixed(2) + ')');
-      K['camled' + c].setAttribute('opacity', (Math.sin(t * 4 + c) > 0 ? 1 : 0.25));
+      var fl = this.camFlash[c] = Math.max(0, this.camFlash[c] - dt);
+      K['camled' + c].setAttribute('opacity', (fl > 0 || Math.sin(t * 4 + c) > 0 ? 1 : 0.25));
+      K['camled' + c].setAttribute('r', fl > 0 ? 3.8 : 2.6);
+    }
+    // the cameras ping in turn, a calm beep every few seconds (only audible with sound on)
+    this.beepT -= dt;
+    if (this.beepT <= 0 && !this.menuOpen) {
+      this.beepT = 3.4; this.beepCam = 1 - this.beepCam;
+      this.camFlash[this.beepCam] = 0.4;
+      this.sfx.beep(this.beepCam ? 988 : 880, this.beepCam ? 0.6 : -0.6);
     }
     // parallax
     var px = (this.mouse.x - 0.5), py = (this.mouse.y - 0.5);
