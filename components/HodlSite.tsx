@@ -9,6 +9,7 @@ import Menu from './sections/Menu';
 import Hero from './sections/Hero';
 import Statement from './sections/Statement';
 import Vault from './sections/Vault';
+import VaultStats from './sections/VaultStats';
 import Mechanics from './sections/Mechanics';
 import Reinvest from './sections/Reinvest';
 import Collection from './sections/Collection';
@@ -50,6 +51,7 @@ export default function HodlSite() {
       <Hero />
       <Statement />
       <Vault />
+      <VaultStats />
       <Mechanics />
       <Reinvest />
       <Collection />
